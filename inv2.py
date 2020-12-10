@@ -82,18 +82,18 @@ if __name__ == '__main__':
                 print("Таких людей нет")
 
         elif command.startswith('load '):
-            # Разбить команду на части для выделения имени файла.
+            
             parts = command.split(' ', maxsplit=1)
 
-            # Прочитать данные из файла JSON.
+            
             with open(parts[1], 'r') as f:
                 people = json.load(f)
 
         elif command.startswith('save '):
-            # Разбить команду на части для выделения имени файла.
+            
             parts = command.split(' ', maxsplit=1)
 
-            # Сохранить данные в файл JSON.
+            
             with open(parts[1], 'w') as f:
                 json.dump(people, f)
 
