@@ -74,7 +74,7 @@ if __name__ == '__main__':
             for peop in people:
                 if peop.get('num') == number:
                     count += 1
-                    print('Номер телефона:', peop.get('num', ''))
+                    print('Номер телефона:', peop.get('num', ''), sorted(key=lambda x: int(str(x)[:3])))
                     print('Фамилия, Имя:', peop.get('name', ''))
                     print('Дата рождения:', peop.get('year', ''))
 
