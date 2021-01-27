@@ -1,38 +1,40 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Использовать словарь, содержащий следующие ключи: фамилия, имя; номер телефона;
-# дата рождения. Написать программу, выполняющую следующие
-# действия: ввод с клавиатуры данных в список, состоящий из словарей заданной структуры;
-# записи должны быть упорядочены по трем первым цифрам номера телефона; вывод на
-# экран информации о человеке, чья фамилия введена с клавиатуры; если такого нет, выдать
-# на дисплей соответствующее сообщение.
+
+# 8.Использовать словарь, содержащий следующие ключи: название пункта назначения; номер
+# поезда; время отправления. Написать программу, выполняющую следующие действия:
+# ввод с клавиатуры данных в список, состоящий из словарей заданной структуры; записи должны
+# быть упорядочены по номерам поездов;
+# вывод на экран информации о поезде, номер которого введен с клавиатуры; если таких поездов нет,
+# выдать на дисплей соответствующее сообщение.
+
 import sys
 import json
 
 
 if __name__ == '__main__':
 
-    people = []
+    poezd = []
 
     while True:
-        command = input("> ").lower()
+        command = input(">>> ").lower()
 
         if command == 'exit':
             break
         elif command == 'add':
-            name = input("Фамилия, Имя: ")
-            num = int(input("Номер телефона: "))
-            year = input("Дата рождения в формате дд:мм:гггг:: ")
+            name = input("Название пункта назначения: ")
+            num = int(input("Номер поезда: "))
+            time = input("Время отправления: ")
 
-            peop = {
+            poez = {
                 'name': name,
                 'num': num,
-                'year': year,
+                'time': time,
             }
 
-            people.append(peop)
-            if len(people) > 1:
-                people.sort(key=lambda item: item.get('num', '3'))
+            poezd.append(poez)
+            if len(poezd) > 1:
+                poezd.sort(key=lambda item: item.get('num', ''))
 
         elif command == 'list':
             line = '+-{}-+-{}-+-{}-+-{}-+'.format(
@@ -44,21 +46,21 @@ if __name__ == '__main__':
             print(line)
             print(
                 '| {:^4} | {:^30} | {:^20} | {:^17} |'.format(
-                    "№",
-                    "Фамилия, Имя",
-                    "Номер телефона",
-                    "Дата рождения"
+                    "Номер",
+                    "Пункт назначения",
+                    "Номер поезда",
+                    "Время отправления"
                 )
             )
             print(line)
 
-            for idx, peop in enumerate(people, 1):
+            for idx, poez in enumerate(poezd, 1):
                 print(
                     '| {:>4} | {:<30} | {:<20} | {:>17} |'.format(
                         idx,
-                        peop.get('name', ''),
-                        peop.get('num', ''),
-                        peop.get('year', 0)
+                        poez.get('name', ''),
+                        poez.get('num', ''),
+                        poez.get('time', 0)
                     )
                 )
 
@@ -71,34 +73,34 @@ if __name__ == '__main__':
             number = int(parts[1])
 
             count = 0
-            for peop in people:
-                if peop.get('num') == number:
+            for poez in poezd:
+                if poez.get('num') == number:
                     count += 1
-                    print('Номер телефона:', peop.get('num', ''), sorted(key=lambda x: int(str(x)[:3])))
-                    print('Фамилия, Имя:', peop.get('name', ''))
-                    print('Дата рождения:', peop.get('year', ''))
+                    print('Номер поезда:', poez.get('num', ''))
+                    print('Пункт назначения:', poez.get('name', ''))
+                    print('Время отправления:', poez.get('time', ''))
 
             if count == 0:
-                print("Таких людей нет")
+                print("Таких поездов нет!")
 
         elif command.startswith('load '):
             parts = command.split(' ', maxsplit=1)
 
             with open(parts[1], 'r') as f:
-                people = json.load(f)
+                poez = json.load(f)
 
         elif command.startswith('save '):
 
             parts = command.split(' ', maxsplit=1)
 
             with open(parts[1], 'w') as f:
-                json.dump(people, f)
+                json.dump(poez, f)
 
         elif command == 'help':
             print("Список команд:\n")
             print("add - добавить поезд;")
-            print("list - вывести список людей;")
-            print("select <номер телефона> - запросить информацию по номеру телефона;")
+            print("list - вывести список поездов;")
+            print("select <номер поезда> - запросить информацию о выбранном поезде;")
             print("help - отобразить справку;")
             print("load <имя файла> - загрузить данные из файла;")
             print("save <имя файла> - сохранить данные в файл;")
